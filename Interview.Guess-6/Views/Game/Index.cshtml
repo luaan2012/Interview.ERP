@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Bem-vindo ao jogo de adivinhação!</h2>
+
+<div class="container mt-5">
+    <div id="content">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Escolha a dificuldade:</p>
+                <select id="difficulty" name="difficulty" class="form-control">
+                    <option value="Easy">Fácil</option>
+                    <option value="Medium">Normal</option>
+                    <option value="Hard">Difícil</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <p>Digite seu nome:</p>
+                <input type="text" id="name" name="name" class="form-control"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <button type="submit" id="startGame" class="btn btn-primary">Começar o jogo</button>
+                <button type="submit" onclick="window.location.href = '@Url.Action("PlayerStats","Game")'" class="btn btn-primary">Ver histórico</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $("#startGame").on("click", function () {
+            var difficulty = $("#difficulty").val()
+            var name = $("#name").val()
+
+            $.post("Game/StartGame", { difficulty, name }, function () {
+
+            }).done(function (data) {
+                $("#content").html($(data).find("#game"))
+            })
+        })
+    </script>  
+}

@@ -1,0 +1,76 @@
+﻿@using Interview.Guess_6.Enums
+
+@model GuessingGame.Information
+@{
+    var history = TempData["Attempts"] as IEnumerable<GuessingGame.Attempt> ?? Enumerable.Empty<GuessingGame.Attempt>();
+}
+
+<div id="game">
+    <h3>Nome do jogador: @Model.Name</h3>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Tentativas restantes: @Model.AttempLeft</p>
+            
+                @if (TempData["Message"] is string)
+                {
+                    <p>@TempData["Message"]</p>
+                }
+
+                <p>Entre com um número: (1-@Model.GuessNumber):</p>
+                <input type="number" id="guess" name="guess" min="1" max="@Model.GuessNumber" required />
+                <br />
+                @if (Model.AttempLeft <= 0)
+                {
+                    <div class="text-danger">Chances esgotadas :(</div>
+                    <button type="button" onclick="window.location.reload()" class="btn btn-primary mt-2">Jogar novamente</button>
+                }else if (Model.Success)
+                {
+                    <div class="text-success">Acertou!! </div>
+                    <button type="button" onclick="window.location.reload()" class="btn btn-primary mt-2">Jogar novamente</button>
+                }
+                else
+                {
+                    <button type="button" id="playGame" class="btn btn-primary mt-2">Jogar</button>
+                }
+                <button type="button" id="clearHistory" class="btn btn-primary mt-2">Limpar Histórico</button>
+            </div>
+        
+            <div class="col-md-6">
+                <aside>
+                    <h3>Histórico</h3>
+            
+                    @foreach (var attempt in history)
+                    {
+                        <p>Número escolhido: @attempt.AttemptNumber</p>
+                        <p>Data: @attempt.Timestamp</p>
+                        <p class="@(attempt.Result == GuessResult.Success ? "text-success" : "text-danger")">Resultado: @(attempt.Result == GuessResult.Success ? "Acertou" : "Errou")</p>
+                        <hr>
+                    }
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#playGame").click(function () {
+            var guess = $("#guess").val()
+
+            $.post("Game/MakeGuess", { guess }, function () {
+
+            }).done(function (data) {
+                $("#content").html($(data).find("#game"))
+            })
+        })
+
+        $("#clearHistory").click(function () {
+            $.get("Game/ClearAttempts", { }, function () {
+
+            }).done(function (data) {
+                $("#content").html($(data).find("#game"))
+            })
+        })
+    </script>
+</div>
+

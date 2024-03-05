@@ -1,0 +1,17 @@
+﻿@using Interview.Guess_6.Enums
+@model IEnumerable<GuessingGame.GameHistory>
+
+@{
+    ViewBag.Title = "Histórico";
+}
+
+@foreach (var history in Model)
+{
+    <h2>Status do jogador</h2>
+
+    <p>Nome: @history.PlayerCode</p>
+    <p>Vitórias: @history.Wins</p>
+    <p>Derrotas: @history.Losers</p>
+    <p>Porcentagem de Vitórias: @history.PorcentVitory%
+    </p>
+}
