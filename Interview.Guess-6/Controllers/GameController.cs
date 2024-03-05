@@ -1,5 +1,4 @@
 using Interview.Guess_6.Enums;
-using Interview.Guess_6.Models;
 using Microsoft.AspNetCore.Mvc;
 using static Interview.Guess_6.Models.GuessingGame;
 

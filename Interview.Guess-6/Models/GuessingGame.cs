@@ -1,6 +1,4 @@
-﻿using System.Data;
-using Interview.Guess_6.Enums;
-using static Interview.Guess_6.Models.GuessingGameControl;
+﻿using Interview.Guess_6.Enums;
 
 namespace Interview.Guess_6.Models
 {
